@@ -26,5 +26,9 @@ public void create(UserRequest.Create request){
 		LocalDateTime.now(),
 		LocalDateTime.now()
 	);
+
+	userRepository.save(newUser);
 }
+
+public boolean i
 }
