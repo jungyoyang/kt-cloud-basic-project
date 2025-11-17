@@ -1,5 +1,11 @@
 package com.kt.controller.auth;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
 	// 인증 관련 컨트롤러를 구현
 	// 인증방식 크게 3가지가 존재
@@ -13,4 +19,6 @@ public class AuthController {
 	// 내 서버에서 하는게아니라 남한테 맡기는 방식( 구글, 카카오, 네이버, 깃헙, 페이스북)
 	// 장점 => 사용자 편하려고 만든게 아니라 서버개발자들 편하려고 쓰는겁니다.
 	// 왜? => 개인정보를 취급하지 않아도 되서, 인가작업 내가 안해도돼서
+	@PostMapping("/login")
+	public void login
 }
