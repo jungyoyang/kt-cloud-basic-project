@@ -14,10 +14,35 @@ public class UserRepository {
 
 	public void save(User user) {
 		// 서비스에서 dto를 도메인으로 바꾼다음 전달
-		var sql = "INSERT INTO USER (loginId, password, name, birthday) VALUES (?,?,?,?)"; //SQL문법
 
-		jdbcTemplate.update(sql, user.getLoginId(), user.getPassword(), user.getName()
-			, user.getBirthday());
+		var sql = """
+			INSERT INTO MEMBER(
+			id,
+			loginId,
+			password,
+			name,
+			email,
+			birthday,
+			mobile,
+			gender,
+			creatredAt
+			updatedAt
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			""";
+
+		jdbcTemplate.update(
+			sql,
+			user.getId(),
+			user.getLoginId(),
+			user.getPassword(),
+			user.getName(),
+			user.getBirthday(),
+			user.getMobile(),
+			user.getEmail(),
+			user.getGender().name(),
+			user.getCreatedAt(),
+			user.getUpdatedAt()
+		);
 	}
 
 	// 회원가입 후 바로 “생성된 id를 클라이언트에게 알려줘야” 할 때
