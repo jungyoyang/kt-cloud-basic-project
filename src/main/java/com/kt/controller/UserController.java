@@ -26,8 +26,8 @@ public class UserController {
 
 	private final UserService userService;
 
+	// jackson object mapper -> json to dto를 매핑
 	public void create(@RequestBody UserCreateRequest request){
 		System.out.println(request.toString());
-		// jackson object mapper -> json to dto를 매핑
 	}
 }
