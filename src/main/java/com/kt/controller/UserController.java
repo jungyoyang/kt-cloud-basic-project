@@ -20,14 +20,18 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+
 public class UserController {
 	// usersrvice를 di받아야함
 	// di받는 방식이 생성자 주입 씀 -> 재할당을 금지함
 
 	private final UserService userService;
 
-	// jackson object mapper -> json to dto를 매핑
-	public void create(@RequestBody UserCreateRequest request){
-		System.out.println(request.toString());
-	}
+	// loginId, password, name, birthday
+	// json형태의 body에 담겨서 post요청으로 /users로 들어오면
+	// @RequestBody를보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 변환
+	public void create(@Valid @RequestBody UserCreateRequest request)
+	{
+		userService.create(request);
+		}
 }
