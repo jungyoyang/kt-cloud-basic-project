@@ -21,9 +21,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name="유저", description = "유저 관련 API")
+@Tag(name = "유저", description = "유저 관련 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
+@ApiResponses(value = {
+	@ApiResponse(responseCode = "400", description = "유효성 검사 실패"),
+	@ApiResponse(responseCode = "500", description = "서버 에러 - 백엔드에 바로 문의 바랍니다.")
+})
 public class UserController {
 	// usersrvice를 di받아야함
 	// di받는 방식이 생성자 주입 씀 -> 재할당을 금지함
@@ -39,7 +44,6 @@ public class UserController {
 	// 장점 : 프로덕션 코드에 침범이 없다, 신뢰할 수 있음
 	// 단점 : UI가 안이쁘다. 그리고 문서작성하는데 테스
 
-
 	// loginId, password, name, birthday
 	// json형태의 body에 담겨서 post요청으로 /users로 들어오면
 	// @RequestBody를보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 변환
@@ -47,9 +51,17 @@ public class UserController {
 		@ApiResponse(responseCode = "400", description = "유효성 검사 실패"),
 		@ApiResponse(responseCode = "500", description = "서버 에러 - 백엔드에 바로 문의 바랍니다.")
 	})
-	@PostMapping("/users")
-	public void create(@Valid @RequestBody UserCreateRequest request)
-	{
+	@PostMapping
+	public void create(@Valid @RequestBody UserCreateRequest request) {
 		userService.create(request);
-		}
+	}
+
+	// /users/duplicate-login-id
+	// GET에서 쓰는 queryString
+	// @RequestParmam의 속성은 기본이 required = true
+	@GetMapping("/duplicate-login-id")
+	@ResponseStatus(HttpStatus.OK)
+	public Boolean idDuplicateLoginid(@RequestParam String loginId) {
+		return userService.isDuplicateLoginId(loginId);
+	}
 }
