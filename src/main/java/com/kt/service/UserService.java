@@ -1,8 +1,12 @@
 package com.kt.service;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
+
+import com.kt.domain.User;
+import com.kt.dto.UserCreateRequest;
+import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -10,25 +14,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	private final UserRepository userRepository;
+	//dto를 받는다
+	public void create(UserCreateRequest request){
+		System.out.println(request.toString());
 
-	// 트랜잭션 처리
-	// PSA (Portable Service Abstraction)
-	// 환경설정을 살짝 바꿔서 일관된 서비스를 제공하는 것
-public void create(UserRequest.Create request){
-	var newUser = User.normalUser(
-		request.loginId(),
-		request.password(),
-		request.name(),
-		request.email(),
-		request.mobile(),
-		request.gender(),
-		request.birthday(),
-		LocalDateTime.now(),
-		LocalDateTime.now()
-	);
+		// dto를 실제 도메인(entity)모델로 변환을 하는 과정을 거치고
+		var newUser = new User(
+			userRepository.selectMaxId() + 1,
+			request.loginId(),
+			request.password(),
+			request.name(),
+			request.email(),
+			request.mobile(),
+			request.gender(),
+			request.birthday(),
+			LocalDateTime.now(),
+			LocalDateTime.now()
+		);
 
-	userRepository.save(newUser);
-}
-
-public boolean i
+		//repository로 넘길거임
+		userRepository.save(newUser);
+	}
+	public boolean isDuplicateLoginId(String loginId) {
+		return userRepository.existsByLoginId(loginId);
+	}
 }
