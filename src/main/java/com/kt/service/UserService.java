@@ -13,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	private final UserRepository userRepository;
+	private final UserJDBCRepository userJDBCRepository;
 	//dto를 받는다
 	public void create(UserCreateRequest request){
 		System.out.println(request.toString());
 
 		// dto를 실제 도메인(entity)모델로 변환을 하는 과정을 거치고
 		var newUser = new User(
-			userRepository.selectMaxId() + 1,
+			userJDBCRepository.selectMaxId() + 1,
 			request.loginId(),
 			request.password(),
 			request.name(),
@@ -33,9 +33,9 @@ public class UserService {
 		);
 
 		//repository로 넘길거임
-		userRepository.save(newUser);
+		userJDBCRepository.save(newUser);
 	}
 	public boolean isDuplicateLoginId(String loginId) {
-		return userRepository.existsByLoginId(loginId);
+		return userJDBCRepository.existsByLoginId(loginId);
 	}
 }
