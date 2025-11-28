@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor; //jpa가 reflection이라느 기술을 쓸때 �
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class User {
 	//Persistent entity 'User' should have primary key
@@ -30,4 +29,5 @@ public class User {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
+	public User(String loginId, String password, String name, String email, String mobile, String Gender,LocalDate)
 }

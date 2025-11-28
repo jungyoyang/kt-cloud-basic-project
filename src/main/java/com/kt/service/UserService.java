@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	private final UserJDBCRepository userJDBCRepository;
+	private final UserRepository userRepository;
 	//dto를 받는다
 	public void create(UserCreateRequest request){
 		System.out.println(request.toString());
 
 		// dto를 실제 도메인(entity)모델로 변환을 하는 과정을 거치고
 		var newUser = new User(
-			userJDBCRepository.selectMaxId() + 1,
 			request.loginId(),
 			request.password(),
 			request.name(),
