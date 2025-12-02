@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 	//dto를 받는다
 	public void create(UserCreateRequest request){
@@ -33,7 +32,7 @@ public class UserService {
 		);
 
 		//repository로 넘길거임
-		userJDBCRepository.save(newUser);
+		userRepository.save(newUser);
 	}
 	public boolean isDuplicateLoginId(String loginId) {
 		return userJDBCRepository.existsByLoginId(loginId);
