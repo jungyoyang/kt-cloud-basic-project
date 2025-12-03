@@ -1,12 +1,30 @@
 package com.kt.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/admin/users")
+@RequiredArgsConstructor
 public class AdminUserController {
 	// 유저 리스트 조회
+
+	//?key=value&page=1 ,라는 쿼리스트링으로한다
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public void search(
+		@RequestParam(defaultValue = "1") int page,
+		@RequestParam(defaultValue = "10") int size,
+	) {
+		return userService.search(page.size);
+// 0 , 10
+	}
 	// 유저 상세 조회
 	// 유저 정보 수정
 	// 유저 삭제

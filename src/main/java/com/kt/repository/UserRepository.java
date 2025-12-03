@@ -1,6 +1,9 @@
 package com.kt.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.kt.domain.User;
 import com.kt.dto.CustomPage;
@@ -21,20 +24,23 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Boolean existsByLoginId(String loginId);
 
-	public CustomPage selectAll(int page, int size) {
+	public Pair<List<User>, Long> selectAll(int page, int size) {
 		// paging의 구조
 		// 백엔드 입장에서 필요한 것
 		// 한화면에 몇개 보여줄것인가? => limit
 		// 내가 몇번째 페이지를 보고있나? => offset (몇개를 건너뛸것인가?)
 		// 보고있는 페이지 - 1 * limit
 		var sql = "SELECT * FROM MEMBER LIMIT ? OFFSET ?";
-
 		var users = jdbcTemplate.query(sql, rowMapper(), page, size);
 
 		var countSql = "SELECT COUNT(*) FROM MEMBER";
 		var totalElements = jdbcTemplate.queryForObject(countSql, Long.class);
 
-	return Pair
+		return Pair.of(users, totalElements);
 	}
 
+	private RowMapper<User> rowMapper() {
+		return (rs, rowNum) -> mapToUser(rs);
+		// () -> {} 람다는 단일 실행문이면 {} 와 return 생략이 가능하다
+	}
 }
