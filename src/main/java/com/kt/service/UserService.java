@@ -1,14 +1,16 @@
 package com.kt.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kt.domain.User;
 import com.kt.dto.CustomPage;
 import com.kt.dto.UserCreateRequest;
+import com.kt.repository.UserJDBCRepository;
 import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,26 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
+	private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 
-	// 트랜잭션 처리해줘
-	// PSA - Portable Service Abstraction
-	// 환결설정을 살짝 바꿔서 일관된 서비스를 제공하는 것
-
 	public void create(UserCreateRequest request) {
-		System.out.println(request.toString());
-
-		// dto => entity , dto를 실제 도메인(entity)모델로 변환을 하는 과정을 거치고
 		var newUser = new User(
 			request.loginId(),
-		/*
-		record가 자동으로 getter 메서드를 만들어준다.
-		String loginId; 가 있으면 record는 자동으로 아래 메서드를 생성한다:
-
-		public String loginId() {
-				return this.loginId;
-		}
-		*/
 			request.password(),
 			request.name(),
 			request.email(),
@@ -47,8 +35,7 @@ public class UserService {
 			LocalDateTime.now()
 		);
 
-		//repository로 넘길거임
-		userRepository.save(newUser);
+		userJDBCRepository.save(newUser);
 	}
 
 	public boolean isDuplicateLoginId(String loginId) {
@@ -64,23 +51,24 @@ public class UserService {
 		}
 
 		if (oldPassword.equals(password)) {
-			throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다")
+			throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.");
 		}
 
 		user.changePassword(password);
 	}
 
-	public void serach(int page, int size) {
+	public Page<User> search(Pageable pageable, String keyword) {
+		return userRepository.findAllByNameContaining(keyword, pageable);
+	}
 
-		var paging = userRepository.selectAll
-		var pages = (int)Math.ceil((double)totalElements / size);
+	public User detail(Long id) {
+		return userRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+	}
 
-		return new CustomPage(
-			users,
-			size,
-			page,
-			pages,
-			totalElements
-		);
+	public void update(Long id, String name, String email, String mobile) {
+		var user = userRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		user.update(name, email, mobile);
 	}
 }
