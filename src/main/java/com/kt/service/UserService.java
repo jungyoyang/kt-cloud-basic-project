@@ -7,10 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kt.domain.User;
-import com.kt.dto.CustomPage;
+import com.kt.domain.user.User;
 import com.kt.dto.UserCreateRequest;
-import com.kt.repository.UserJDBCRepository;
 import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
-	private final UserJDBCRepository userJDBCRepository;
+	//private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 
 	public void create(UserCreateRequest request) {
@@ -35,7 +33,7 @@ public class UserService {
 			LocalDateTime.now()
 		);
 
-		userJDBCRepository.save(newUser);
+		userRepository.save(newUser);
 	}
 
 	public boolean isDuplicateLoginId(String loginId) {
@@ -57,6 +55,7 @@ public class UserService {
 		user.changePassword(password);
 	}
 
+	// Pageable 인터페이스
 	public Page<User> search(Pageable pageable, String keyword) {
 		return userRepository.findAllByNameContaining(keyword, pageable);
 	}
@@ -70,5 +69,9 @@ public class UserService {
 		var user = userRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		user.update(name, email, mobile);
+	}
+
+	public void delete(Long id){
+		userRepository.deleteById(id);
 	}
 }
