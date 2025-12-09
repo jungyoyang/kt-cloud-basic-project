@@ -1,8 +1,12 @@
 package com.kt.domain.order;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kt.common.BaseEntity;
+import com.kt.domain.orderproduct.OrderProduct;
+import com.kt.domain.product.Product;
 import com.kt.domain.user.User;
 
 import jakarta.persistence.Entity;
@@ -10,6 +14,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -36,6 +41,13 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@OneToMany
+	private List<OrderProduct> products = new ArrayList<>();
+	//하나의 order는 여러개의 상품을 가질 수 있음
+	//1:N
+	//하나의 상품은 여러개의 order를 가질 수 있음
+	//1:N
 
 
 	// 주문 생성
