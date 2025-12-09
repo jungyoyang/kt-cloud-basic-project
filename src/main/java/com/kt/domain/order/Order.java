@@ -8,7 +8,6 @@ import com.kt.domain.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -27,6 +26,8 @@ public class Order extends BaseEntity {
 	private LocalDateTime deliveredAt;
 
 	// 연관관계 (주문 <-> 회원)
+	// 하나의 주문은 여러명의 회원을 가질 수 있나? 아니요
+	// 그 반대는? 네
 	// N : 1 => 다대일
 	// JPA한테 ManyToOne으로 지정해줘 알려주자
 
@@ -35,8 +36,12 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	// 하나의 주문은 여러명의 회원을 가질 수 있나? 아니요
 
-	// private Long userId;
 
+	// 주문 생성
+	// 주문 상태 변경
+	// 주문 생성 완료 재고 차감
+	// 배송받는 사람 정보 변경
+	// 주문 취소
+	// 만들어보기
 }
