@@ -24,11 +24,10 @@ public class Order extends BaseEntity {
 	private OrderStatus status;
 	private LocalDateTime deliveredAt;
 
-	// 연관관계
-	// 주문 <-> 회원
+	// 연관관계 (주문 <-> 회원)
 	// N : 1 => 다대일
-	// ManyToOne
-	// FK => 다쪽, 많은쪽에 자동으로 생김
+	// 관계를 이을때 어디에 연결을해야할까? FK로 연결을 하게되는데
+	// FK는 다대일에서 많은쪽에 생김
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
