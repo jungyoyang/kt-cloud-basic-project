@@ -8,6 +8,7 @@ import com.kt.domain.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -20,12 +21,15 @@ public class Order extends BaseEntity {
 	private String receiverName;
 	private String receiverAddress;
 	private String receiverMobile;
-	@Enumerated(EnumType.STRING) //숫자로 DB에저장하는게아닌 STRING으로 저장하기위함
+	//숫자로 DB에저장하는게아닌 STRING으로 저장하기위함
+	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	private LocalDateTime deliveredAt;
 
 	// 연관관계 (주문 <-> 회원)
 	// N : 1 => 다대일
+	// JPA한테 ManyToOne으로 지정해줘 알려주자
+
 	// 관계를 이을때 어디에 연결을해야할까? FK로 연결을 하게되는데
 	// FK는 다대일에서 많은쪽에 생김
 	@ManyToOne
