@@ -8,7 +8,6 @@ import com.kt.domain.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -25,8 +24,8 @@ public class Order extends BaseEntity {
 	private OrderStatus status;
 	private LocalDateTime deliveredAt;
 
-	//연관관계
-	//주문 <-> 회원
+	// 연관관계
+	// 주문 <-> 회원
 	// N : 1 => 다대일
 	// ManyToOne
 	// FK => 다쪽, 많은쪽에 자동으로 생김
@@ -35,5 +34,6 @@ public class Order extends BaseEntity {
 	private User user;
 	// 하나의 주문은 여러명의 회원을 가질 수 있나? 아니요
 
+	// private Long userId;
 
 }

@@ -6,6 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    show-sql: true #로컬에서만
     hibernate:
       #create = 테이블을 만들기만
       #update = 테이블 없으면 만들고 있지만 entity랑 다르면 수정 -> 삭제는 안해줌
@@ -21,4 +22,3 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           time_zone: Asia/Seoul
-        show-sql: true #로컬에서만

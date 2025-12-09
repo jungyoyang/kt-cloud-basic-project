@@ -31,8 +31,10 @@ public class User extends BaseEntity {
 	private Gender gender;
 	private LocalDate birthday;
 
-	@OneToMany
+	@OneToMany (mappedBy = "user")
 	private List<Order> orders = new ArrayList<>();
+
+	//sql 연습!
 
 	public User(String loginId, String password, String name, String email, String mobile, Gender gender,
 		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt) {
