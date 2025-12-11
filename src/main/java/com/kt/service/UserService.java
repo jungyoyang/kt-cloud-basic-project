@@ -26,6 +26,7 @@ public class UserService {
 	//private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 
+
 	public void create(UserCreateRequest request) {
 		var newUser = new User(
 			request.loginId(),

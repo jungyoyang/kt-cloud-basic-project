@@ -16,6 +16,8 @@ public class ProductService {
 	private final ProductRepository productRepository;
 
 	//dto로 하는경우와 인자로넣는경우가있는데 지금은 인자로넣는경우를 실습
+	//productCreateRequest가 오는게 이상한것같다 라고하면 이렇게하는거
+	// 서비스에서는 이 dto를 모르게 풀어서쓰는 방법
 	public void create(String name, Long price, Long quantity) {
 		productRepository.save(
 			new Product(
