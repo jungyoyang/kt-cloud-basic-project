@@ -9,6 +9,7 @@ import com.kt.domain.orderproduct.OrderProduct;
 import com.kt.domain.product.Product;
 import com.kt.domain.user.User;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,9 +23,9 @@ import lombok.Getter;
 @Entity
 @Table(name="orders")
 public class Order extends BaseEntity {
-	private String receiverName;
-	private String receiverAddress;
-	private String receiverMobile;
+
+	@Embedded
+	private Receiver receiver;
 	//숫자로 DB에저장하는게아닌 STRING으로 저장하기위함
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
@@ -42,8 +43,6 @@ public class Order extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToMany
-	private List<OrderProduct> products = new ArrayList<>();
 	//하나의 order는 여러개의 상품을 가질 수 있음
 	//1:N
 	//하나의 상품은 여러개의 order를 가질 수 있음

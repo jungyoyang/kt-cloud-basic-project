@@ -13,6 +13,10 @@ import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+// 구현체가 두개 이상 필요로해야 인터페이스가 의미가있징낳나?
+//인터터페이스 :  구현체가 1:1인데 다나눠야하나?
+// 관레를 지키려고 추상화를 굳이 하는것을 관습적 추상화라고 한다.
+
 @Service
 @RequiredArgsConstructor
 @Transactional

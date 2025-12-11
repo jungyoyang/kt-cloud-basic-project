@@ -33,7 +33,7 @@ public class User extends BaseEntity {
 	private LocalDate birthday;
 
 	@OneToMany (mappedBy = "user")
-	private List<OrderProduct> orders = new ArrayList<>();
+	private List<Order> orders = new ArrayList<>();
 
 	//sql 연습!
 

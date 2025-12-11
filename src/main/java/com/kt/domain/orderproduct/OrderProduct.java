@@ -15,6 +15,7 @@ public class OrderProduct extends BaseEntity {
 
 	@OneToOne
 	private Order order;
+
 	@OneToOne
 	private Product product;
 }

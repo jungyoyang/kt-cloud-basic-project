@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kt.common.BaseEntity;
 import com.kt.domain.order.Order;
+import com.kt.domain.orderproduct.OrderProduct;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,8 +24,6 @@ public class Product extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private ProductStatus status;
 
-	@OneToMany
-	private List<Order> orders = new ArrayList<>();
 
 	// 생성
 	// 수정
