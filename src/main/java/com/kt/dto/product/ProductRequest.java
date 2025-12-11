@@ -12,7 +12,7 @@ import lombok.Getter;
 public class ProductRequest {
 	@Getter
 	@AllArgsConstructor
-	static class Create{
+	public static class Create{
 		@NotBlank
 		private String name;
 		@NotNull
