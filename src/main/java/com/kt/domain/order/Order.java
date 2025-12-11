@@ -26,7 +26,7 @@ public class Order extends BaseEntity {
 
 	@Embedded
 	private Receiver receiver;
-	//숫자로 DB에저장하는게아닌 STRING으로 저장하기위함
+	//숫자로 DB에저장하는게 아닌 STRING으로 저장하기위함
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	private LocalDateTime deliveredAt;

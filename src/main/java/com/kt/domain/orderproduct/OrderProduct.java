@@ -5,6 +5,7 @@ import com.kt.domain.order.Order;
 import com.kt.domain.product.Product;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 
@@ -13,9 +14,9 @@ import lombok.Getter;
 public class OrderProduct extends BaseEntity {
 	private Long quantity;
 
-	@OneToOne
+	@ManyToOne
 	private Order order;
 
-	@OneToOne
+	@ManyToOne
 	private Product product;
 }
