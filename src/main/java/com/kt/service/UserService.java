@@ -39,7 +39,6 @@ public class UserService {
 			LocalDateTime.now(),
 			LocalDateTime.now()
 		);
-
 		userRepository.save(newUser);
 	}
 

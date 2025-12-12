@@ -21,6 +21,8 @@ public class ProductRequest {
 		private Long quantity;
 	}
 
+	@Getter
+	@AllArgsConstructor
 	public static class Update {
 		@NotBlank
 		private String name;
