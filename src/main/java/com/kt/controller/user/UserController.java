@@ -1,6 +1,7 @@
-package com.kt.controller;
+package com.kt.controller.user;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kt.common.ApiResult;
 import com.kt.dto.UserCreateRequest;
 import com.kt.dto.UserUpdatePasswordRequest;
 import com.kt.service.UserService;
@@ -53,8 +53,9 @@ public class UserController {
 	// loginId, password, name, birthday
 	// json형태의 body에 담겨서 post요청으로 /users로 들어오면
 	// @RequestBody를보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 변환
-	public void create(@Valid @RequestBody UserCreateRequest request) {
+	public ResponseEntity<String> create(@Valid @RequestBody UserCreateRequest request) {
 		userService.create(request);
+		return ApiResult.ok();
 	}
 
 	// /users/duplicate-login-id?loginId=ktuser

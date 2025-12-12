@@ -1,4 +1,4 @@
-package com.kt.controller;
+package com.kt.controller.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
