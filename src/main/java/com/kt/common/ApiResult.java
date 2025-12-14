@@ -24,6 +24,11 @@ public class ApiResult<T> {
 		return ApiResult.of("ok", "성공", null);
 	}
 
+	//Overloading
+	public static <T> ApiResult<T> ok (T data){
+		return ApiResult.of("ok", "성공", data);
+	}
+
 	public static <T> ApiResult<T> of(String code, String message, T data) {
 		return new ApiResult<>(code, message, data);
 	}

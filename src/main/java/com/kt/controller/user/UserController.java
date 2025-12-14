@@ -1,7 +1,6 @@
 package com.kt.controller.user;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,8 +63,10 @@ public class UserController {
 	// @RequestParam의 속성은 기본이 required = true
 	@GetMapping("/duplicate-login-id")
 	@ResponseStatus(HttpStatus.OK)
-	public Boolean isDuplicateLoginId(@RequestParam String loginId) {
-		return userService.isDuplicateLoginId(loginId);
+	public ApiResult<Boolean> isDuplicateLoginId(@RequestParam String loginId) {
+		var result = userService.isDuplicateLoginId(loginId);
+		return ApiResult.ok(result);
+
 	}
 
 	//uri는 식별이 가능해야한다.
@@ -78,16 +79,18 @@ public class UserController {
 	// 3. 인증/인가 객체에서 id값을 꺼낸다. (V)
 	@PutMapping("/{id}/update-password")
 	@ResponseStatus(HttpStatus.OK)
-	public void updatePassword(
+	public ApiResult<Void> updatePassword(
 		@PathVariable Long id,
 		@RequestBody @Valid UserUpdatePasswordRequest request
 	) {
 		userService.changePassword(id, request.oldPassword(), request.newPassword());
+		return ApiResult.ok();
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void delete(@PathVariable Long id) {
+	public ApiResult<Void> delete(@PathVariable Long id) {
 		userService.delete(id);
+		return ApiResult.ok();
 	}
 }
