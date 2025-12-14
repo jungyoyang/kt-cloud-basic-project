@@ -53,7 +53,7 @@ public class UserController {
 	// loginId, password, name, birthday
 	// json형태의 body에 담겨서 post요청으로 /users로 들어오면
 	// @RequestBody를보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 변환
-	public ResponseEntity<String> create(@Valid @RequestBody UserCreateRequest request) {
+	public ApiResult<Void> create(@Valid @RequestBody UserCreateRequest request) {
 		userService.create(request);
 		return ApiResult.ok();
 	}
