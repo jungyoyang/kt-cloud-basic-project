@@ -1,5 +1,7 @@
 package com.kt.common;
 
+import java.util.Arrays;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,8 +16,11 @@ public class ApiAdvice {
 	// MethodArgumentNotValidException 이 익셉션을 처리하도록
 	// @ExceptionHandler(MethodArgumentNotValidException.class)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+	public ResponseEntity<ErrorResponse.ErrorData> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 		//예외처리 로직 작성
-		return ErrorResponse.error(HttpStatus.BAD_REQUEST,"에러임");
+		var details = Arrays.toString(e.getDetailMessageArguments());
+		var message = details.split()
+
+		return ErrorResponse.error(HttpStatus.BAD_REQUEST,message);
 	}
 }
