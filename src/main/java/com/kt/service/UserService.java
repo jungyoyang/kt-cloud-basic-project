@@ -8,11 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kt.common.CustomException;
 import com.kt.common.ErrorCode;
 import com.kt.common.Preconditions;
 import com.kt.domain.user.User;
-import com.kt.dto.UserCreateRequest;
+import com.kt.dto.user.UserCreateRequest;
 import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;

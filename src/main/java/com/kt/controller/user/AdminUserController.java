@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kt.domain.user.User;
-import com.kt.dto.UserUpdateRequest;
+import com.kt.common.ApiResult;
+import com.kt.dto.user.UserResponse;
+import com.kt.dto.user.UserUpdateRequest;
 import com.kt.service.UserService;
 
 import jakarta.validation.Valid;
@@ -30,27 +31,41 @@ public class AdminUserController {
 	// 이름에
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Page<User> search(
+	public ApiResult<Page<UserResponse.Search>> search(
 		@RequestParam(defaultValue = "1") int page,
 		@RequestParam(defaultValue = "10") int size,
 		@RequestParam(required = false) String keyword
 	) {
-		return userService.search(PageRequest.of(page - 1, size), keyword);
+		var search = userService.search(PageRequest.of(page - 1, size), keyword)
+			.map(user-> new UserResponse.Search(
+				user.getId(),
+				user.getName(),
+				user.getCreatedAt()
+				));
+		return ApiResult.ok(search);
 
 	}
 	// 유저 상세 조회
 
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public User detail(@PathVariable Long id) {
-		return userService.detail(id);
+	public ApiResult<UserResponse.Detail> detail(@PathVariable Long id) {
+		var user = userService.detail(id);
+
+		return ApiResult.ok(new UserResponse.Detail(
+			user.getId(),
+			user.getName(),
+			user.getEmail()
+		));
 	}
 
 	// 유저 정보 수정
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void update(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
+	public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
 		userService.update(id, request.name(), request.email(), request.mobile());
+
+	return ApiResult.ok();
 	}
 	// 유저 삭제
 	// DELETE FROM MEMBER WHERE id = ?
