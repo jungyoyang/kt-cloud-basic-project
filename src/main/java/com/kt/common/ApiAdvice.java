@@ -15,11 +15,25 @@ public class ApiAdvice {
 	// 어떤 예외를 처리할 것인지 정의
 	// MethodArgumentNotValidException 이 익셉션을 처리하도록
 	// @ExceptionHandler(MethodArgumentNotValidException.class)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+	// 500에러를 하나로 처리할때
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse.ErrorData> internalServerError(Exception e){
+		e.printStackTrace(); //<-에러가뜬건지 알아볼때
+		// 서버에러 입니다
+		return ErrorResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,"서버에러입니다. 백엔드팀에 문의하세요");
+	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse.ErrorData> customException(CustomException e){
+		return ErrorResponse.error(e.getStatus(), e.getMessage());
+	}
+
+
+		@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse.ErrorData> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 		//예외처리 로직 작성
+		e.printStackTrace();
 		var details = Arrays.toString(e.getDetailMessageArguments());
-		var message = details.split()
+		var message = details.split(",",2)[1].replace("]","").trim();
 
 		return ErrorResponse.error(HttpStatus.BAD_REQUEST,message);
 	}
