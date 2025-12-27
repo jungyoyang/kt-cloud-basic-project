@@ -24,7 +24,7 @@ public class ApiAdvice {
 	}
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse.ErrorData> customException(CustomException e){
-		return ErrorResponse.error(e.getStatus(), e.getMessage());
+		return ErrorResponse.error(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
 	}
 
 

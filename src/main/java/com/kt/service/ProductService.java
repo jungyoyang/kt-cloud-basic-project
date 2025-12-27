@@ -33,58 +33,43 @@ public class ProductService {
 	}
 
 	public void update(Long id, String name, Long price, Long quantity) {
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.update(name, price, quantity);
 	}
 
 	public void soldOut(Long id) {
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.soldOut();
 	}
 	public void inActivate(Long id) {
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
-
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.inActivate();
 	}
 
 	public void activate(Long id) {
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.activate();
 	}
 
 	public void delete(Long id) {
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.delete();
 	}
 
 	public void decreaseStock(Long id, Long quantity){
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 			product.decreaseStock(quantity);
 
 	}
 
 	public void increaseStock(Long id, Long quantity){
-		var product = productRepository.findById(id)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT)
-			);
+		var product = productRepository.findByIdOrThrow(id);
 
 		product.increaseStock(quantity);
 
