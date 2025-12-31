@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kt.common.ApiResult;
+import com.kt.common.Paging;
 import com.kt.dto.user.UserResponse;
 import com.kt.dto.user.UserUpdateRequest;
 import com.kt.service.UserService;
@@ -25,28 +26,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminUserController {
 	private final UserService userService;
-	// 유저 리스트 조회
 
-	//?key=value&page=1&keyword=asdasd
+	//TODO 여기 유저 리스트 조회가 이해가안감
+
+	// 유저 리스트 조회
+	// ?key=value&page=1&keyword=asdasd
 	// 이름에
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResult<Page<UserResponse.Search>> search(
-		@RequestParam(defaultValue = "1") int page,
-		@RequestParam(defaultValue = "10") int size,
+		Paging paging,
 		@RequestParam(required = false) String keyword
 	) {
-		var search = userService.search(PageRequest.of(page - 1, size), keyword)
+		var search = userService.search(paging.toPageable(), keyword)
 			.map(user-> new UserResponse.Search(
 				user.getId(),
 				user.getName(),
 				user.getCreatedAt()
 				));
 		return ApiResult.ok(search);
-
 	}
-	// 유저 상세 조회
 
+	// 유저 상세 조회
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResult<UserResponse.Detail> detail(@PathVariable Long id) {

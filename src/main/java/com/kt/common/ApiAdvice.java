@@ -8,8 +8,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 // 에러를 공통된 응답으로 처리하는 방식
 // Spring 에서는 RestcontrollerAdvice
+@Hidden
 @RestControllerAdvice
 public class ApiAdvice {
 	// 어떤 예외를 처리할 것인지 정의
@@ -22,7 +25,7 @@ public class ApiAdvice {
 		// 서버에러 입니다
 		return ErrorResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,"서버에러입니다. 백엔드팀에 문의하세요");
 	}
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<ErrorResponse.ErrorData> customException(CustomException e){
 		return ErrorResponse.error(e.getErrorCode().getStatus(), e.getErrorCode().getMessage());
 	}
