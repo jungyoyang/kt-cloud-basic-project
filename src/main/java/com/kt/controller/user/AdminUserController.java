@@ -14,17 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kt.common.ApiResult;
 import com.kt.common.Paging;
+import com.kt.common.SwaggerAssistance;
 import com.kt.dto.user.UserResponse;
 import com.kt.dto.user.UserUpdateRequest;
 import com.kt.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name="User")
 @RestController
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor
-public class AdminUserController {
+public class AdminUserController extends SwaggerAssistance {
 	private final UserService userService;
 
 	//TODO 여기 유저 리스트 조회가 이해가안감
@@ -32,11 +39,18 @@ public class AdminUserController {
 	// 유저 리스트 조회
 	// ?key=value&page=1&keyword=asdasd
 	// 이름에
+	@Operation(
+		parameters = {
+			@Parameter(name = "keyword", description = "검색 키워드(이름)"),
+			@Parameter(name = "page", description = "페이지 번호", example = "1"),
+			@Parameter(name = "size", description = "페이지 크기", example = "10")
+		}
+	)
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResult<Page<UserResponse.Search>> search(
-		Paging paging,
-		@RequestParam(required = false) String keyword
+		@RequestParam(required = false) String keyword,
+		@Parameter(hidden=true) Paging paging
 	) {
 		var search = userService.search(paging.toPageable(), keyword)
 			.map(user-> new UserResponse.Search(

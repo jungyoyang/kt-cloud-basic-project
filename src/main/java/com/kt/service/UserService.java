@@ -53,11 +53,11 @@ public class UserService {
 		var user = userRepository.findByIdOrThrow(id, ErrorCode.NOT_FOUND_USER);
 
 
-		//검증 작업
+		//검증 작업 (무엇이 해피한 상황일까?)
 		// 긍정적인 상황만 생각하자 -> 패스워드가 이전것과 달라야 => 해피한
 		// 패스워드가 같으면 안되는데 => 해피하지 않은 상황
-		//그래서 !를 씀
-		Preconditions.validate(!user.getPassword().equals(oldPassword),ErrorCode.DOES_NOT_MATCH_OLD_PASSWORD);
+		// 그래서 !를 씀
+		Preconditions.validate(user.getPassword().equals(oldPassword),ErrorCode.DOES_NOT_MATCH_OLD_PASSWORD);
 		Preconditions.validate(!oldPassword.equals(password),ErrorCode.CAN_NOT_ALLOWED_SAME_PASSWORD);
 		user.changePassword(password);
 	}
