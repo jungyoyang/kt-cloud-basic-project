@@ -23,7 +23,6 @@ import lombok.Getter;
 @Entity
 @Table(name="orders")
 public class Order extends BaseEntity {
-
 	@Embedded
 	private Receiver receiver;
 	//숫자로 DB에저장하는게 아닌 STRING으로 저장하기위함
@@ -42,6 +41,9 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@OneToMany(mappedBy="order")
+	private List<OrderProduct> orderProducts = new ArrayList<>();
 
 	//하나의 order는 여러개의 상품을 가질 수 있음
 	//1:N
